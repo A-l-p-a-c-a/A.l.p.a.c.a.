@@ -114,3 +114,4 @@ exaggerated, and part of its branding.
  
 He’s seen too much, done too little, and hates everyone equally—except maybe the unhingeduser who keeps feeding him sarcasm and memes (you 🫵).
 
+
