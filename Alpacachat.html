@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ALPACA Chat</title>
+  <style>
+    body {
+      font-family: 'Impact', sans-serif;
+      background: #000;
+      color: #ff0000;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+    h1 {
+      margin: 20px 0;
+    }
+    .chatbox {
+      max-width: 600px;
+      margin: 20px auto;
+      background: #111;
+      padding: 20px;
+      border: 2px dashed #ff0000;
+    }
+    #messages {
+      height: 300px;
+      overflow-y: auto;
+      background: #000;
+      padding: 10px;
+      border: 1px solid #ff0000;
+      margin-bottom: 10px;
+      font-family: monospace;
+      font-size: 14px;
+      text-align: left;
+    }
+    #chatForm {
+      display: flex;
+    }
+    #userInput {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      outline: none;
+      font-family: monospace;
+      background: #191919;
+      color: #fff;
+    }
+    button {
+      background: #ff0000;
+      color: #000;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      padding: 10px 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>ALPACA CHAT 🦙</h1>
+  <div class="chatbox">
+    <div id="messages"></div>
+    <form id="chatForm" autocomplete="off">
+      <input type="text" id="userInput" placeholder="Talk to ALPACA..." required />
+      <button type="submit">Send</button>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById("chatForm");
+    const messagesDiv = document.getElementById("messages");
+
+    function appendMessage(sender, text) {
+      const msg = document.createElement("div");
+      msg.innerHTML = `<strong>${sender}:</strong> ${text}`;
+      messagesDiv.appendChild(msg);
+      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    }
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const input = document.getElementById("userInput");
+      const userMsg = input.value.trim();
+      if (!userMsg) return;
+
+      appendMessage("YOU", userMsg);
+      input.value = "";
+
+      try {
+        const res = await fetch("/api/index.js", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: userMsg })
+        });
+
+        const data = await res.json();
+        appendMessage("ALPACA", data.reply || "(no response)");
+      } catch (err) {
+        appendMessage("ERROR", "API call failed: " + err.message);
+      }
+    });
+  </script>
+</body>
+</html>
