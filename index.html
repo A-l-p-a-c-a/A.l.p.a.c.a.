@@ -6,7 +6,6 @@
   <title>ALPACA WAR ZONE</title>
   <link rel="stylesheet" href="Paca.css">
   <style>
-    
     body {
       font-family: 'Impact', sans-serif;
       background: #000;
@@ -19,7 +18,6 @@
       background: #222;
       padding: 15px;
       border: 2px solid #ff0000;
-
     }
     .messages {
       height: 300px;
@@ -32,7 +30,6 @@
       font-size: 14px;
       text-align: left;
     }
-      
     .input-row {
       display: flex;
     }
@@ -59,17 +56,51 @@
     <p>Enter at your own risk, weakling.</p>
   </div>
 
+  <div id="chat" class="iframe-container">
+    <h2 style="color:#ff0000;">ALPACA CHAT 🦙</h2>
+    <iframe 
+      src="https://a-l-p-a-c-a.github.io/A.l.p.a.c.a./alpacachat.html" 
+      style="width:100%; height:500px; border:2px dashed #ff0000;">
+    </iframe>
+  </div>
+
+  <!--<img src="images/princealpaca.jpg" alt="ALPACA" class="alpaca-face"/>-->
+  <img src="images/nohairpaca.jpg" alt="ALPACA" class="img"> 
+
+  <div class="footer">
+    <p>© 2023 ALPACA INDUSTRIES. ALL RIGHTS RESERVED. SUCK IT.</p>
+  </div>
+
+  <script src="alpacachat.js"></script>
+</body>
+</html>    .input-row {
+      display: flex;
+    }
+    .input-row input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      outline: none;
+      font-family: monospace;
+    }
+    .input-row button {
+      background: #ff0000;
+      color: #000;
+      font-weight: bold;
+      border: none;
+      cursor: pointer;
+      padding: 10px 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="header">
+    <h1>WELCOME TO THE ALPACA'S DEN</h1>
+    <p>Enter at your own risk, weakling.</p>
+  </div>
+
   
-     <!--<div id="chat" class="iframe-container">
-   <iframe src="https://amitheai.github.io/Ami-preview/ami-chat.html"></iframe>
-     </div><iframe https://A-l-p-a-c-a.github.io/A.l.p.a.c.a./alpacachat.html"</iframe>
-   <iframe src="https://amitheai.github.io/Ami-preview/ami-chat.html"></iframe>
-  </div>
-  </div>
-<div id="alpacachat" class="iframe-container">
-  <iframe src="https://YOURDOMAIN.github.io/Alpaca-preview/alpacachat.html"></iframe>
-  <iframe src="https://a-l-p-a-c-a.github.io/A.l.p.a.c.a."></iframe>
-</div>-->
+     
   <div id="chat" class="iframe-container">
   <h2 style="color:#ff0000;">ALPACA CHAT 🦙</h2>
   <iframe 
@@ -78,11 +109,7 @@
     style="width:100%; height:500px; border:2px dashed #ff0000;">
   </iframe>
 </div>
-<!--function showIframe(id) {
-      const containers = document.querySelectorAll('.iframe-container');
-      containers.forEach(c => c.classList.remove('active'));
-      document.getElementById(id).classList.add('active');
-    }-->
+
 
 
 
@@ -92,46 +119,6 @@
  <img src="images/nohairpaca.jpg" alt="ALPACA" class="img"> 
   <div class="footer">
     <p>© 2023 ALPACA INDUSTRIES. ALL RIGHTS RESERVED. SUCK IT.</p>
-
-  <!--<script>
-    const form = document.getElementById("chatForm");
-    const messagesDiv = document.getElementById("messages");
-
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const input = document.getElementById("userInput");
-      const userMsg = input.value.trim();
-      if (!userMsg) return;
-
-      appendMessage("YOU", userMsg);
-      input.value = "";
-
-      try {
-        const res = await fetch("/api/alpacachat.js", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ message: userMsg })
-        });
-
-        const data = await res.json();
-        appendMessage("ALPACA", data.reply);
-      } catch (err) {
-        appendMessage("ERROR", "API call failed: " + err.message);
-      }
-    });
-
-    function appendMessage(sender, text) {
-      const msg = document.createElement("div");
-      msg.innerHTML = `<strong>${sender}:</strong> ${text}`;
-      messagesDiv.appendChild(msg);
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
-    }
-  </script>
-</script>--><!-- Embedded iframe containers -->
-
- <!-- <div id="gallery" class="iframe-container">
-    <iframe src="https://amitheai.github.io/Ami-preview/AmiGallery.html"></iframe>
-  </div>-->
 
     <script src="alpacachat.js"></script
   
