@@ -9,16 +9,14 @@ chatForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const question = userInput.value.trim();
     if (!question) return;
-
-    addMessage(question, "user");
-    userInput.value = "";
-    addMessage("...", "alpaca");
-
+    addMessage(question, 'user');
+    userInput.value = '';
+    addMessage('...', 'ami');
     const response = await getAIResponse(question);
-
-    // Replace last "..." with ALPACA’s answer
+    // Replace last '...' with answer
     messagesDiv.removeChild(messagesDiv.lastChild);
-    addMessage(response, "alpaca");
+    addMessage(response, 'a.l.p.a.c.a.');
+});
 });
 
 function addMessage(text, sender) {
@@ -34,8 +32,9 @@ function addMessage(text, sender) {
 
 async function getAIResponse(userMessage) {
     // Replace this with your actual backend URL
-   const endpoint = "https://a-l-p-a-c-ob8ujoubc-davi-s-projects-f68a6c48.vercel.app/api/index.js"; 
-
+  //const endpoint = "https://a-l-p-a-c-ob8ujoubc-davi-s-projects-f68a6c48.vercel.app/api/index.js"
+    // Call your Vercel backend instead of OpenAI directly!
+    const endpoint = "https://YOUR-VERCEL-URL/api/alpacabackend"; // <-- Replace with your actual vercrl
     const messages = [
         { role: "system", content: "You are ALPACA, a sarcastic, blunt AI drill sergeant. Insult first, then answer concisely." },
         ...Array.from(messagesDiv.children).map(div => {
