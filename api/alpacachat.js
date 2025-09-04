@@ -31,7 +31,7 @@ function addMessage(text, sender) {
 
 async function getAIResponse(userMessage) {
     // Call your Vercel backend instead of OpenAI directly!
-    const endpoint = "https://YOUR-VERCEL-URL/api/alpacachat.js"; // <-- Replace with your actual backend URL
+    const endpoint = "https://YOUR-VERCEL-URL/api/alpacachat"; // <-- Replace with your actual backend URL
     const messages = [
         {role: "system", content: "You are Ami, a helpful, creative, and friendly AI assistant on this website. Answer questions and assist users conversationally."},
         ...Array.from(messagesDiv.children).map(div => {
