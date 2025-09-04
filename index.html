@@ -66,18 +66,25 @@
       <button onclick="showIframe('alpacachat')">Alpaca Chat</button>
     </form>
   <div id="chat" class="iframe-container">
-     <div id="chat" class="iframe-container">
-   <!-- <iframe src="https://amitheai.github.io/Ami-preview/ami-chat.html"></iframe>
+     <!--<div id="chat" class="iframe-container">
+   <iframe src="https://amitheai.github.io/Ami-preview/ami-chat.html"></iframe>
      </div><iframe https://A-l-p-a-c-a.github.io/A.l.p.a.c.a./alpacachat.html"</iframe>
-   <!-- <iframe src="https://amitheai.github.io/Ami-preview/ami-chat.html"></iframe>
+   <iframe src="https://amitheai.github.io/Ami-preview/ami-chat.html"></iframe>
   </div>
   </div>
 <div id="alpacachat" class="iframe-container">
   <iframe src="https://YOURDOMAIN.github.io/Alpaca-preview/alpacachat.html"></iframe>
   <iframe src="https://a-l-p-a-c-a.github.io/A.l.p.a.c.a."></iframe>
 </div>-->
+  <div id="chat" class="iframe-container">
+    <iframe src="https://amitheai.github.io/Ami-preview/ami-chat.html"></iframe>
+  </div>
 
-
+function showIframe(id) {
+      const containers = document.querySelectorAll('.iframe-container');
+      containers.forEach(c => c.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+    }
 
 
 
@@ -89,7 +96,7 @@
     <p>© 2023 ALPACA INDUSTRIES. ALL RIGHTS RESERVED. SUCK IT.</p>
   </div>
 
-  <script>
+  <!--<script>
     const form = document.getElementById("chatForm");
     const messagesDiv = document.getElementById("messages");
 
@@ -123,7 +130,12 @@
       messagesDiv.scrollTop = messagesDiv.scrollHeight;
     }
   </script>
-</script>
+</script>--><!-- Embedded iframe containers -->
+
+ <!-- <div id="gallery" class="iframe-container">
+    <iframe src="https://amitheai.github.io/Ami-preview/AmiGallery.html"></iframe>
+  </div>-->
+
     <script src="alpacachat.js"></script
   
 </body>
