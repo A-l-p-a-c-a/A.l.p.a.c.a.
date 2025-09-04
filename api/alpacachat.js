@@ -3,7 +3,7 @@ const chatForm = document.getElementById('chatForm');
 const userInput = document.getElementById('userInput');
 
 // Initial Ami greeting
-addMessage('Hi! I\'m Ami, your AI assistant. How can I help you today?', 'ami');
+addMessage('I\'m  A.L.P.A.C.A. = Artificial Language Processing And Conversational Asshole Im not here to make friends,' 'A.l.p.a.c.a');
 
 chatForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -11,11 +11,11 @@ chatForm.addEventListener('submit', async (e) => {
     if (!question) return;
     addMessage(question, 'user');
     userInput.value = '';
-    addMessage('...', 'ami');
+    addMessage('...', 'A.l.p.a.c.a');
     const response = await getAIResponse(question);
     // Replace last '...' with answer
     messagesDiv.removeChild(messagesDiv.lastChild);
-    addMessage(response, 'ami');
+    addMessage(response, 'A.l.p.a.c.a');
 });
 
 function addMessage(text, sender) {
@@ -31,7 +31,7 @@ function addMessage(text, sender) {
 
 async function getAIResponse(userMessage) {
     // Call your Vercel backend instead of OpenAI directly!
-    const endpoint = "https://YOUR-VERCEL-URL/api/script.js"; // <-- Replace with your actual backend URL
+    const endpoint = "https://YOUR-VERCEL-URL/api/alpacachat.js"; // <-- Replace with your actual backend URL
     const messages = [
         {role: "system", content: "You are Ami, a helpful, creative, and friendly AI assistant on this website. Answer questions and assist users conversationally."},
         ...Array.from(messagesDiv.children).map(div => {
