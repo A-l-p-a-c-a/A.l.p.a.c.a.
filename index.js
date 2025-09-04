@@ -1,36 +1,60 @@
+const messagesDiv = document.getElementById('messages');
+const chatForm = document.getElementById('chatForm');
+const userInput = document.getElementById('userInput');
 
-import dotenv from "dotenv"
-dotenv.config()
-// frontend/script.js
+// Initial Ami greeting
+addMessage('Hi! I\'m Ami, your AI assistant. How can I help you today?', 'ami');
 
-const BACKEND_URL = ''; 
+chatForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const question = userInput.value.trim();
+    if (!question) return;
+    addMessage(question, 'user');
+    userInput.value = '';
+    addMessage('...', 'ami');
+    const response = await getAIResponse(question);
+    // Replace last '...' with answer
+    messagesDiv.removeChild(messagesDiv.lastChild);
+    addMessage(response, 'ami');
+});
 
-document.getElementById('send-button').addEventListener('click', async () => {
-    const promptInput = document.getElementById('prompt-input');
-    const prompt = promptInput.value;
-    const responseDiv = document.getElementById('ai-response');
+function addMessage(text, sender) {
+    const div = document.createElement('div');
+    div.className = `message ${sender}`;
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    bubble.textContent = text;
+    div.appendChild(bubble);
+    messagesDiv.appendChild(div);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+}
 
-    if (!prompt) return;
-
-    responseDiv.textContent = 'Thinking...';
+async function getAIResponse(userMessage) {
+    // Call your Vercel backend instead of OpenAI directly!
+    const endpoint = "https://YOUR-VERCEL-URL/api/ami-chat"; // <-- Replace with your actual backend URL
+    const messages = [
+        {role: "system", content: "You are Ami, a helpful, creative, and friendly AI assistant on this website. Answer questions and assist users conversationally."},
+        ...Array.from(messagesDiv.children).map(div => {
+            const text = div.querySelector('.bubble').textContent;
+            return div.classList.contains('user')
+                ? {role: "user", content: text}
+                : {role: "assistant", content: text};
+        }),
+        {role: "user", content: userMessage}
+    ];
 
     try {
-        const response = await fetch(`${BACKEND_URL}/api/chat`, {
-            method: 'POST',
+        const res = await fetch(endpoint, {
+            method: "POST",
             headers: {
-                'Content-Type': 'application/json',
+                "Content-Type": "application/json"
             },
-            body: JSON.stringify({ prompt }), // <-- CORRECT KEY!
+            body: JSON.stringify({ messages: messages.slice(-10) }) // send messages as JSON
         });
-
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-
-        const data = await response.json();
-        responseDiv.textContent = data.message; // <-- CORRECT KEY!
-    } catch (error) {
-        console.error('Error:', error);
-        responseDiv.textContent = 'Error: Could not connect to the server.';
+        const data = await res.json();
+        return data.choices?.[0]?.message?.content?.trim() || "Sorry, I couldn't understand that.";
+    } catch (err) {
+        console.error(err);
+        return "Sorry, there was a problem reaching my brain!";
     }
-});
+}
