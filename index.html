@@ -59,13 +59,7 @@
     <p>Enter at your own risk, weakling.</p>
   </div>
 
-  <div class="chatbox">
-    <div id="messages" class="messages"></div>
-    <form id="chatForm" class="input-row">
-      <input type="text" id="userInput" placeholder="Talk to ALPACA..." required />
-      <button onclick="showIframe('alpacachat')">Alpaca Chat</button>
-    </form>
-  <div id="chat" class="iframe-container">
+  
      <!--<div id="chat" class="iframe-container">
    <iframe src="https://amitheai.github.io/Ami-preview/ami-chat.html"></iframe>
      </div><iframe https://A-l-p-a-c-a.github.io/A.l.p.a.c.a./alpacachat.html"</iframe>
@@ -77,14 +71,18 @@
   <iframe src="https://a-l-p-a-c-a.github.io/A.l.p.a.c.a."></iframe>
 </div>-->
   <div id="chat" class="iframe-container">
-    <iframe src="https://amitheai.github.io/Ami-preview/ami-chat.html"></iframe>
-  </div>
-
-function showIframe(id) {
+  <h2 style="color:#ff0000;">ALPACA CHAT 🦙</h2>
+  <iframe 
+    src="https://a-l-p-a-c-a.github.io/A.l.p.a.c.a./alpacachat.html" 
+    class="iframe-container"
+    style="width:100%; height:500px; border:2px dashed #ff0000;">
+  </iframe>
+</div>
+<!--function showIframe(id) {
       const containers = document.querySelectorAll('.iframe-container');
       containers.forEach(c => c.classList.remove('active'));
       document.getElementById(id).classList.add('active');
-    }
+    }-->
 
 
 
@@ -94,7 +92,6 @@ function showIframe(id) {
  <img src="images/nohairpaca.jpg" alt="ALPACA" class="img"> 
   <div class="footer">
     <p>© 2023 ALPACA INDUSTRIES. ALL RIGHTS RESERVED. SUCK IT.</p>
-  </div>
 
   <!--<script>
     const form = document.getElementById("chatForm");
