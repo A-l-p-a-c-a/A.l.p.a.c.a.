@@ -1,4 +1,4 @@
-qconst messagesDiv = document.getElementById('messages');
+const messagesDiv = document.getElementById('messages');
 const chatForm = document.getElementById('chatForm');
 const userInput = document.getElementById('userInput');
 
