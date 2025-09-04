@@ -34,8 +34,8 @@ async function getAIResponse(userMessage) {
     // Replace this with your actual backend URL
   //const endpoint = "https://a-l-p-a-c-ob8ujoubc-davi-s-projects-f68a6c48.vercel.app/api/index.js"
     // Call your Vercel backend instead of OpenAI directly!
-    const endpoint = "https://YOUR-VERCEL-URL/api/alpacabackend"; // <-- Replace with your actual vercrl
-    const endpoint = "https://a-l-p-a-c-a.vercel.app/";
+    const endpoint = "https://YOUR-VERCEL-URL/alpacachat"; // <-- Replace with your actual vercrl
+    //const endpoint = "https://a-l-p-a-c-a.vercel.app
     const messages = [
         { role: "system", content: "You are ALPACA, a sarcastic, blunt AI drill sergeant. Insult first, then answer concisely." },
         ...Array.from(messagesDiv.children).map(div => {
