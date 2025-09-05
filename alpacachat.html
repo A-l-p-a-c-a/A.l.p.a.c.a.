@@ -65,43 +65,44 @@
     </form>
   </div>
 
-  <script>
-    const form = document.getElementById("chatForm");
-    const messagesDiv = document.getElementById("messages");
+<script>
+  const form = document.getElementById("chatForm");
+  const messagesDiv = document.getElementById("messages");
+  const input = document.getElementById("userInput");
 
-    function appendMessage(sender, text) {
-      const msg = document.createElement("div");
-      msg.innerHTML = `<strong>${sender}:</strong> ${text}`;
-      messagesDiv.appendChild(msg);
-      messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  function appendMessage(sender, text) {
+    const msg = document.createElement("div");
+    msg.innerHTML = `<strong>${sender}:</strong> ${text}`;
+    messagesDiv.appendChild(msg);
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  }
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const userMsg = input.value.trim();
+    if (!userMsg) return;
+
+    appendMessage("YOU", userMsg);
+    input.value = "";
+
+    try {
+      const res = await fetch("/api/alpacachat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          messages: [{ role: "user", content: userMsg }]
+        }),
+      });
+
+      const data = await res.json();
+
+      // ✅ Pulls the model’s reply safely
+      const reply = data.choices?.[0]?.message?.content || "(no response)";
+      appendMessage("ALPACA", reply);
+    } catch (err) {
+      appendMessage("ERROR", "API call failed: " + err.message);
     }
-
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-      const input = document.getElementById("userInput");
-      const userMsg = input.value.trim();
-      if (!userMsg) return;
-
-      appendMessage("YOU", userMsg);
-      input.value = "";
-  
-  try {
-  const res = await fetch("/api/alpacachat", {   // no .js at the end
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      messages: [
-        { role: "user", content: userMsg }
-      ]
-    })
   });
-
-  const data = await res.json();
-  appendMessage("ALPACA", data.choices?.[0]?.message?.content || "(no response)");
-} catch (err) {
-  appendMessage("ERROR", "API call failed: " + err.message);
-}
-});
-  </script>
+</script>
 </body>
 </html>
