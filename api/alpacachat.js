@@ -3,8 +3,7 @@ const chatForm = document.getElementById('chatForm');
 const userInput = document.getElementById('userInput');
 
 // Initial Ami greeting
-addMessage('I\'m  A.L.P.A.C.A. = Artificial Language Processing And Conversational Asshole Im not here to make friends,' 'A.l.p.a.c.a');
-
+addMessage("I\'m  A.L.P.A.C.A. = Artificial Language Processing And Conversational Asshole Im not here to make friends," "A.l.p.a.c.a");
 chatForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     const question = userInput.value.trim();
