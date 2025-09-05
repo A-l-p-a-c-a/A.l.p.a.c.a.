@@ -1,23 +1,26 @@
-async function sendAlpacaChat(userMessage) {
-  const apiUrl = "https://your-vercel-app.vercel.app/api/alpacachat"; // Replace with your actual Vercel URL
+async function sendMessage() {
+  const input = document.getElementById('userInput').value.trim();
+  if (!input) return;
 
-  const messages = [
-    { role: "user", content: userMessage }
-  ];
+  // Use your actual Vercel deployment URL:
+  const apiUrl = "https://a-l-p-a-c-a.vercel.app/api/alpacachat";
 
-  const response = await fetch(apiUrl, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ messages }),
-  });
-  const data = await response.json();
-  if (data.reply) {
-    console.log("Alpaca says:", data.reply);
-    // You can display this in your HTML instead!
-  } else {
-    console.error("Error:", data.error);
+  document.getElementById('response').textContent = "Alpaca is thinking...";
+  const messages = [{ role: "user", content: input }];
+
+  try {
+    const res = await fetch(apiUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ messages }),
+    });
+    const data = await res.json();
+    if (data.reply) {
+      document.getElementById('response').textContent = data.reply;
+    } else {
+      document.getElementById('response').textContent = "Error: " + (data.error || "Unknown error");
+    }
+  } catch (err) {
+    document.getElementById('response').textContent = "Network Error: " + err.message;
   }
 }
-
-// Example usage:
-sendAlpacaChat("Hello Alpaca!");
