@@ -19,7 +19,7 @@ module.exports = async (req, res) => {
         "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
-        model: "gpt-5",
+        model: "gpt-4.1",
         messages,
         max_completion_tokens: 800,   // ✅ bumped up from 200
       }),
