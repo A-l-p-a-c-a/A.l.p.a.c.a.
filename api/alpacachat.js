@@ -18,11 +18,12 @@ module.exports = async (req, res) => {
         "Content-Type": "application/json",
         "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
       },
-      body: JSON.stringify({
+
+        body: JSON.stringify({
         model: "gpt-5",
-        messages,
-        max_tokens: 200,
-      }),
+         messages,
+        max_completion_tokens: 200,
+        });
     });
 
     const data = await response.json();
