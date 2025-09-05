@@ -10,7 +10,7 @@ export default async function handler(req, res) {
 
   try {
     const response = await client.chat.completions.create({
-      model: "gpt-4.1",   // or "gpt-4.1-turbo" if needed
+      model: "gpt-4.1-2025-04-14",   // or "gpt-4.1-turbo" if needed
       messages: req.body.messages,
       max_completion_tokens: 800,
     });
