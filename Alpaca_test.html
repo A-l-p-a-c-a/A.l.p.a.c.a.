@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Alpaca Chat Test</title>
+  <style>
+    body { background: #111; color: #eee; font-family: sans-serif; }
+    #chat-box { width: 400px; margin: 40px auto; background: #222; border: 2px solid #ff0000; padding: 20px; border-radius: 15px; }
+    #response { margin-top: 15px; white-space: pre-wrap; }
+    input, button { font-size: 1.1em; padding: 6px; border-radius: 6px; }
+    button { background: #ff0000; color: #fff; border: none; margin-left: 5px; cursor: pointer; }
+    input { width: 70%; }
+  </style>
+</head>
+<body>
+  <div id="chat-box">
+    <h2>Talk to Alpaca</h2>
+    <input id="userInput" type="text" placeholder="Say something to Alpaca..."/>
+    <button onclick="sendMessage()">Send</button>
+    <div id="response"></div>
+  </div>
+  <script>
+    async function sendMessage() {
+      const input = document.getElementById('userInput').value.trim();
+      if (!input) return;
+
+      // IMPORTANT! Use your actual Vercel deployment URL below:
+      const apiUrl = "https://a-l-p-a-c-4apbk1o24-davidawn.vercel.app/api/alpacachat";
+
+      document.getElementById('response').textContent = "Alpaca is thinking...";
+      const messages = [{ role: "user", content: input }];
+
+      try {
+        const res = await fetch(apiUrl, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ messages }),
+        });
+        const data = await res.json();
+        if (data.reply) {
+          document.getElementById('response').textContent = data.reply;
+        } else {
+          document.getElementById('response').textContent = "Error: " + (data.error || "Unknown error");
+        }
+      } catch (err) {
+        document.getElementById('response').textContent = "Network Error: " + err.message;
+      }
+    }
+  </script>
+</body>
+</html>
