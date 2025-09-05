@@ -68,7 +68,7 @@
 <script>
   const form = document.getElementById("chatForm");
   const messagesDiv = document.getElementById("messages");
-  const input = document.getElementById("userInput");
+  const userInput = document.getElementById("userInput");
 
   function appendMessage(sender, text) {
     const msg = document.createElement("div");
@@ -79,11 +79,11 @@
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
-    const userMsg = input.value.trim();
+    const userMsg = userInput.value.trim();
     if (!userMsg) return;
 
     appendMessage("YOU", userMsg);
-    input.value = "";
+    userInput.value = "";
 
     try {
       const res = await fetch("/api/alpacachat", {
@@ -95,14 +95,10 @@
       });
 
       const data = await res.json();
-
-
-// ✅ Pulls the model’s reply safely from either field
-const reply =
-  data.reply ||
-  data.choices?.[0]?.message?.content ||
-  "(no response)";
-appendMessage("ALPACA", reply);
+      console.log("Frontend got:", data); // 👈 for debugging
+      appendMessage("ALPACA", data.reply || "(no response)");
+    } catch (err) {
+      appendMessage("ERROR", "API call failed: " + err.message);
     }
   });
 </script>
