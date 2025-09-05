@@ -1,32 +1,46 @@
-const form = document.getElementById("chatForm");
-const messagesDiv = document.getElementById("messages");
-const userInput = document.getElementById("userInput");
+module.exports = async (req, res) => {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
 
-function appendMessage(sender, text) {
-  const msg = document.createElement("div");
-  msg.innerHTML = `<strong>${sender}:</strong> ${text}`;
-  messagesDiv.appendChild(msg);
-  messagesDiv.scrollTop = messagesDiv.scrollHeight;
-}
+  if (!process.env.OPENAI_API_KEY) {
+    return res.status(500).json({ error: "Missing OpenAI API key" });
+  }
 
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const userMsg = userInput.value.trim();
-  if (!userMsg) return;
-
-  appendMessage("YOU", userMsg);
-  userInput.value = "";
+  const { messages } = req.body || {};
+  if (!Array.isArray(messages) || messages.length === 0) {
+    return res.status(400).json({ error: "messages must be a non-empty array" });
+  }
 
   try {
-    const res = await fetch("https://YOUR-VERCEL-URL/api/alpacachat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: userMsg }),
-    });
+    const response = await fetch(
+      "https://api.openai.com/v1/chat/completions",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+        },
+        body: JSON.stringify({
+          model: "gpt-4.1", // or "gpt-4-turbo", adjust as needed
+          messages,
+          max_tokens: 800, // Correct parameter name
+        }),
+      }
+    );
 
-    const data = await res.json();
-    appendMessage("ALPACA", data.reply || "(no response)");
-  } catch (err) {
-    appendMessage("ERROR", "API call failed: " + err.message);
+    const data = await response.json();
+
+    // Handle OpenAI errors
+    if (!response.ok) {
+      return res.status(response.status).json({
+        error: data?.error?.message || "OpenAI API error",
+      });
+    }
+
+    const reply = data.choices?.[0]?.message?.content?.trim() || "(empty reply)";
+    return res.status(200).json({ reply });
+  } catch (error) {
+    return res.status(500).json({ error: error.message || "Server error" });
   }
-});
+};
