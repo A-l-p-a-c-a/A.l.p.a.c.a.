@@ -23,9 +23,13 @@ export default async function handler(req, res) {
         max_tokens: 200,
       }),
     });
+    
+  const data = await response.json();
+  console.log("OpenAI raw response:", JSON.stringify(data, null, 2)); // 👈 log it
 
-    const data = await response.json();
-    return res.status(200).json(data);
+// Send only the reply text back to the frontend
+   const reply = data.choices?.[0]?.message?.content || "(no response)";
+   return res.status(200).json({ reply });
   } catch (err) {
     return res.status(500).json({ error: err.message });
   }
