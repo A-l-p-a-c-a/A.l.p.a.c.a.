@@ -61,9 +61,11 @@
     <div id="messages"></div>
     <form id="chatForm" autocomplete="off">
       <input type="text" id="userInput" placeholder="Talk to ALPACA..." required />
-      <button type="submit">Send</button>
+     <button onclick="sendMessage()">Send</button>
+
     </form>
   </div>
+  
 
 <script>
   const form = document.getElementById("chatForm");
@@ -102,5 +104,6 @@
     }
   });
 </script>
+  <script src="script.js"></script>
 </body>
 </html>
