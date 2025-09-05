@@ -21,15 +21,17 @@ module.exports = async (req, res) => {
       body: JSON.stringify({
         model: "gpt-5",
         messages,
-        max_completion_tokens: 200
-      })
+        max_completion_tokens: 800,   // ✅ bumped up from 200
+      }),
     });
 
     const data = await response.json();
     console.log("OpenAI raw response:", JSON.stringify(data, null, 2));
 
-    const reply = data.choices?.[0]?.message?.content || "(no response)";
+    // ✅ safe reply handling
+    const reply = data.choices?.[0]?.message?.content?.trim() || "(empty reply)";
     return res.status(200).json({ reply });
+
   } catch (err) {
     console.error("Error calling OpenAI:", err);
     return res.status(500).json({ error: err.message });
