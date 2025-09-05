@@ -1,10 +1,9 @@
-console.log("Incoming body:", req.body);
-
-export default async function handler(req, res) {
+  export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
   }
-
+  console.log("Incoming body:", req.body);
+  }
   const { messages } = req.body || {};
   if (!messages) {
     return res.status(400).json({ error: "No messages provided" });
@@ -23,7 +22,7 @@ export default async function handler(req, res) {
         max_tokens: 200,
       }),
     });
-
+    
     const data = await response.json();
     return res.status(200).json(data);
   } catch (err) {
