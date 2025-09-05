@@ -4,13 +4,11 @@ module.exports = async (req, res) => {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  if (!process.env.OPENAI_API_KEY) {
-    return res.status(500).json({ error: "Missing OpenAI API key" });
-  }
+  console.log("Incoming body:", req.body);
 
   const { messages } = req.body || {};
-  if (!Array.isArray(messages) || messages.length === 0) {
-    return res.status(400).json({ error: "messages must be a non-empty array" });
+  if (!messages) {
+    return res.status(400).json({ error: "No messages provided" });
   }
 
   try {
@@ -21,24 +19,19 @@ module.exports = async (req, res) => {
         "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
-        model: "gpt-5",  // ✅ your chosen model
+        model: "gpt-4.1",
         messages,
-        // ✅ supports both naming conventions:
-        max_completion_tokens: 800,
-        max_tokens: 800
+        max_tokens: 800,   // âœ… bumped up from 200
       }),
     });
 
     const data = await response.json();
+    console.log("OpenAI raw response:", JSON.stringify(data, null, 2));
 
-    if (!response.ok) {
-      return res.status(response.status).json({
-        error: data?.error?.message || "OpenAI API error",
-      });
-    }
-
+    // âœ… safe reply handling
     const reply = data.choices?.[0]?.message?.content?.trim() || "(empty reply)";
     return res.status(200).json({ reply });
+
   } catch (err) {
     console.error("Error calling OpenAI:", err);
     return res.status(500).json({ error: err.message });
