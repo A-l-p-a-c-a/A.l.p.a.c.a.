@@ -96,11 +96,13 @@
 
       const data = await res.json();
 
-      // ✅ Pulls the model’s reply safely
-      const reply = data.choices?.[0]?.message?.content || "(no response)";
-      appendMessage("ALPACA", reply);
-    } catch (err) {
-      appendMessage("ERROR", "API call failed: " + err.message);
+
+// ✅ Pulls the model’s reply safely from either field
+const reply =
+  data.reply ||
+  data.choices?.[0]?.message?.content ||
+  "(no response)";
+appendMessage("ALPACA", reply);
     }
   });
 </script>
