@@ -23,7 +23,7 @@ module.exports = async (req, res) => {
         model: "gpt-5",
          messages,
         max_completion_tokens: 200,
-        });
+        
     });
 
     const data = await response.json();
