@@ -86,12 +86,12 @@ body {
 }
 
 .messages strong {
-  color: #ff0000;
+  color: #;ffffff
 }
 
 
 .input-row input:focus {
-  box-shadow: 0 0 8px #ff0000;
+  box-shadow: 0 0 8px #000000;
 }
 
 .input-row button:hover {
