@@ -1,20 +1,24 @@
-module.exports = async (req, res) => {
+// api/chat.js
+export default async function handler(req, res) {
+  // --- CORS so GitHub pages can call this ---
   res.setHeader("Access-Control-Allow-Origin", "*");
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS");
-  // Handle preflight request
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
   if (req.method === "OPTIONS") {
-    return res.status(200).end();
+    res.status(200).end();
+    return;
   }
   if (req.method !== "POST") {
-    return res.status(405).json({ error: "Method not allowed" });
+    res.status(405).json({ error: "Method not allowed" });
+    return;
   }
-  if (!process.env.OPENAI_API_KEY) {
-    return res.status(500).json({ error: "Missing OpenAI API key" });
+
+  const { message } = req.body || {};
+  if (!message) {
+    res.status(400).json({ error: "Missing message" });
+    return;
   }
-  const { messages } = req.body || {};
-  if (!Array.isArray(messages) || messages.length === 0) {
-    return res.status(400).json({ error: "messages must be a non-empty array" });
-  }
+
   try {
     const response = await fetch(
       "https://api.openai.com/v1/chat/completions",
@@ -22,19 +26,29 @@ module.exports = async (req, res) => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${process.env.OPENAI_API_KEY}`,
+          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
         },
         body: JSON.stringify({
           model: "gpt-4.1-2025-04-14",
-          messages,
-          max_tokens: 800,
+          messages: [{ role: "user", content: message }],
         }),
       }
     );
-    const data = await response.json();
+
     if (!response.ok) {
-      return res.status(response.status).json({
-        error: data?.error?.message || "OpenAI API error",
+      const err = await response.text();
+      res.status(500).json({ error: "OpenAI error", details: err });
+      return;
+    }
+
+    const data = await response.json();
+    res.status(200).json({ reply: data.choices[0].message.content });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: "Request failed" });
+  }
+}
+          error: data?.error?.message || "OpenAI API error",
       });
     }
     const reply = data.choices?.[0]?.message?.content?.trim() || "(empty reply)";
